@@ -1,0 +1,2 @@
+/usr/bin/ld: /opt/cray/pe/hdf5-parallel/1.10.5.2/intel/19.0/lib/libhdf5.a(H5PLint.o): in function `H5PL__open':
+H5PLint.c:(.text+0x3fa): warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
