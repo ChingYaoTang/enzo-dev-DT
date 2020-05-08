@@ -1,10 +1,10 @@
 
 CPP = /lib/cpp
-CC  = /opt/cray/pe/craype/2.6.2/bin/cc
-CXX = /opt/cray/pe/craype/2.6.2/bin/CC
-FC  = /opt/cray/pe/craype/2.6.2/bin/ftn
-F90 = /opt/cray/pe/craype/2.6.2/bin/ftn
-LD  = /opt/cray/pe/craype/2.6.2/bin/CC
+CC  = /opt/cray/pe/craype/2.6.1/bin/cc
+CXX = /opt/cray/pe/craype/2.6.1/bin/CC
+FC  = /opt/cray/pe/craype/2.6.1/bin/ftn
+F90 = /opt/cray/pe/craype/2.6.1/bin/ftn
+LD  = /opt/cray/pe/craype/2.6.1/bin/CC
 
 DEFINES = -DXT3 -DSYSCALL -DH5_USE_16_API  -D__max_subgrids=100000 -D__max_baryons=30 -D__max_cpu_per_node=8 -D__memory_pool_size=100000 -DINITS64 -DLARGE_INTS -DCONFIG_PINT_8 -DIO_32    -DUSE_MPI   -DCONFIG_PFLOAT_8 -DCONFIG_BFLOAT_8  -DUSE_HDF5_GROUPS   -DTRANSFER   -DNEW_GRID_IO -DFAST_SIB      -DENZO_PERFORMANCE    -DSAB
 

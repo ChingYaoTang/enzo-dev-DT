@@ -12,6 +12,7 @@
 /
 ************************************************************************/
 
+#include "preincludes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -146,6 +147,22 @@ int grid::CollapseTestInitializeGrid(int NumberOfSpheres,
   int ColourNum = NumberOfBaryonFields;
   if (SphereUseColour)
     FieldType[NumberOfBaryonFields++] = Metallicity; /* fake it with metals */
+  
+  if (UseMHD) {
+    FieldType[NumberOfBaryonFields++] = Bfield1;
+    FieldType[NumberOfBaryonFields++] = Bfield2;
+    FieldType[NumberOfBaryonFields++] = Bfield3;
+  }
+  if (HydroMethod == MHD_RK){
+    FieldType[NumberOfBaryonFields++] = PhiField;
+    if(UsePoissonDivergenceCleaning)
+      FieldType[NumberOfBaryonFields++] = Phi_pField;
+  }
+  int accel = NumberOfBaryonFields;
+  FieldType[NumberOfBaryonFields++] = DrivingField1;
+  FieldType[NumberOfBaryonFields++] = DrivingField2;
+  FieldType[NumberOfBaryonFields++] = DrivingField3;
+
 
   /* Return if this doesn't concern us. */
 
@@ -175,6 +192,11 @@ int grid::CollapseTestInitializeGrid(int NumberOfSpheres,
     HubbleConstantNow = 1.0;
     OmegaMatterNow = 1.0;
   }
+
+  int size = 1;
+
+  for (int dim_ = 0; dim_ < GridRank; dim_++)
+    size *= GridDimension[dim_];
 
   /* Compute NFW profile-info. The parameters are SphereCoreRadius (which is
      the "knee radius") and SphereDensity (the overdensity ar the knee
@@ -719,17 +741,17 @@ int grid::CollapseTestInitializeGrid(int NumberOfSpheres,
 
 		  //		float vel = sqrt(PointSourceGravityConstant/drad)/drad;
 
-		  float accel = PointSourceGravityConstant;
+		  float accel_ = PointSourceGravityConstant;
 		  if (PointSourceGravity == 1)
-		    accel = PointSourceGravityConstant/
+		    accel_ = PointSourceGravityConstant/
 		      (POW(drad,3) + POW(PointSourceGravityCoreRadius, 3));
 		  if (PointSourceGravity == 2) {
 		    x1 = drad/PointSourceGravityCoreRadius;
-		    accel = PointSourceGravityConstant*(log(1+x1)-x1/(1+x1))/
+		    accel_ = PointSourceGravityConstant*(log(1+x1)-x1/(1+x1))/
 		      POW(drad, 3);
 		  }
 		
-		  float vel = sqrt(accel);
+		  float vel = sqrt(accel_);
 		
 		  /* Compute velocty: L x r_perp. */
 
