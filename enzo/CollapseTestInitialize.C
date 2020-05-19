@@ -619,6 +619,21 @@ int CollapseTestInitialize(FILE *fptr, FILE *Outfptr,
   DataLabel[count++] = (char*) Vel1Name;
   DataLabel[count++] = (char*) Vel2Name;
   DataLabel[count++] = (char*) Vel3Name;
+
+  if ( UseMHD ) {
+    DataLabel[count++] = BxName;
+    DataLabel[count++] = ByName;
+    DataLabel[count++] = BzName;
+  }
+  if( HydroMethod == MHD_RK ){
+    DataLabel[count++] = PhiName;
+  }
+  MHDCTSetupFieldLabels();
+
+  DataLabel[count++] = StochAccel1Name;
+  DataLabel[count++] = StochAccel2Name;
+  DataLabel[count++] = StochAccel3Name;
+
   if (MultiSpecies) {
     DataLabel[count++] = (char*) ElectronName;
     DataLabel[count++] = (char*) HIName;
@@ -641,21 +656,6 @@ int CollapseTestInitialize(FILE *fptr, FILE *Outfptr,
     DataLabel[count++] = (char*) ColourName;
   if (CollapseTestUseMetals)
     DataLabel[count++] = (char*) MetalName;
-
-
-  if ( UseMHD ) {
-    DataLabel[count++] = BxName;
-    DataLabel[count++] = ByName;
-    DataLabel[count++] = BzName;
-  }
-  if( HydroMethod == MHD_RK ){
-    DataLabel[count++] = PhiName;
-  }
-  MHDCTSetupFieldLabels();
-
-  DataLabel[count++] = StochAccel1Name;
-  DataLabel[count++] = StochAccel2Name;
-  DataLabel[count++] = StochAccel3Name;
 
 
   for (i = 0; i < count; i++)

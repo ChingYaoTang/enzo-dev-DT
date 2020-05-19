@@ -123,6 +123,22 @@ int grid::CollapseTestInitializeGrid(int NumberOfSpheres,
     FieldType[NumberOfBaryonFields++] = Velocity2;
   if (GridRank > 2)
     FieldType[NumberOfBaryonFields++] = Velocity3;
+  
+  if (UseMHD) {
+    FieldType[NumberOfBaryonFields++] = Bfield1;
+    FieldType[NumberOfBaryonFields++] = Bfield2;
+    FieldType[NumberOfBaryonFields++] = Bfield3;
+  }
+  if (HydroMethod == MHD_RK){
+    FieldType[NumberOfBaryonFields++] = PhiField;
+    if(UsePoissonDivergenceCleaning)
+      FieldType[NumberOfBaryonFields++] = Phi_pField;
+  }
+  int accel = NumberOfBaryonFields;
+  FieldType[NumberOfBaryonFields++] = DrivingField1;
+  FieldType[NumberOfBaryonFields++] = DrivingField2;
+  FieldType[NumberOfBaryonFields++] = DrivingField3;
+
   if (MultiSpecies) {
     FieldType[DeNum    = NumberOfBaryonFields++] = ElectronDensity;
     FieldType[HINum    = NumberOfBaryonFields++] = HIDensity;
@@ -147,21 +163,6 @@ int grid::CollapseTestInitializeGrid(int NumberOfSpheres,
   int ColourNum = NumberOfBaryonFields;
   if (SphereUseColour)
     FieldType[NumberOfBaryonFields++] = Metallicity; /* fake it with metals */
-  
-  if (UseMHD) {
-    FieldType[NumberOfBaryonFields++] = Bfield1;
-    FieldType[NumberOfBaryonFields++] = Bfield2;
-    FieldType[NumberOfBaryonFields++] = Bfield3;
-  }
-  if (HydroMethod == MHD_RK){
-    FieldType[NumberOfBaryonFields++] = PhiField;
-    if(UsePoissonDivergenceCleaning)
-      FieldType[NumberOfBaryonFields++] = Phi_pField;
-  }
-  int accel = NumberOfBaryonFields;
-  FieldType[NumberOfBaryonFields++] = DrivingField1;
-  FieldType[NumberOfBaryonFields++] = DrivingField2;
-  FieldType[NumberOfBaryonFields++] = DrivingField3;
 
 
   /* Return if this doesn't concern us. */
