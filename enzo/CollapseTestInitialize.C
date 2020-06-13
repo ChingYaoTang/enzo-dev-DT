@@ -33,6 +33,7 @@
 #include "LevelHierarchy.h"
 #include "TopGridData.h"
 #include "phys_constants.h"
+#include "units.h"
 
 void WriteListOfFloats(FILE *fptr, int N, float floats[]);
 void WriteListOfFloats(FILE *fptr, int N, FLOAT floats[]);
@@ -322,6 +323,17 @@ int CollapseTestInitialize(FILE *fptr, FILE *Outfptr,
       fprintf(stderr, "warning: the following parameter line was not interpreted:\n%s\n", line);
 
   } // end input from parameter file
+
+  if (EquationOfState == 0) {
+      float PressureUnits_;
+      PressureUnits_ = GlobalDensityUnits*pow(GlobalLengthUnits/GlobalTimeUnits,2); // P=D*V^2
+      SoundSpeed = sqrt(Gamma 
+                        * (1.0*kboltz*CollapseTestInitialTemperature*GlobalDensityUnits/(Mu*mh) 
+                           / PressureUnits_)
+                        / CollapseTestInitialDensity);
+  }
+  else
+      SoundSpeed = IsothermalSoundSpeed;
 
   if ((HydroMethod != MHD_RK) && (HydroMethod != HD_RK) && (HydroMethod != MHD_Li)) {
       fprintf(stderr,"DrivenFlowInitialize: Only support for MUSCL framework and MHDCT at this point.\n");

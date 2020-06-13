@@ -26,6 +26,7 @@
 #include "Grid.h"
 #include "CosmologyParameters.h"
 #include "phys_constants.h"
+#include "units.h"
 
 #define NTHETA 1000
 #define NR 1000
@@ -1048,6 +1049,14 @@ int grid::CollapseTestInitializeGrid(int NumberOfSpheres,
 
   } // end loop SetupLoopCount
 
+
+  float PressureUnits_;
+  PressureUnits_ = GlobalDensityUnits*pow(GlobalLengthUnits/GlobalTimeUnits,2); // P=D*V^2
+  printf("DrivenFlowInitialize in CollapseTest %"FSYM" %"FSYM" %"FSYM" %"FSYM"\n",
+            InitialDensity,
+            (1.0*kboltz*InitialTemperature*GlobalDensityUnits/(Mu*mh) / PressureUnits_),
+            Gamma,
+            (1.0*kboltz*InitialTemperature*GlobalDensityUnits/(Mu*mh) / PressureUnits_)/((Gamma-1)*InitialDensity) );
   if (SphereUseParticles && debug)
     printf("CollapseTestInitialize: NumberOfParticles = %"ISYM"\n", 
 	   NumberOfParticles);
