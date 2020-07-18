@@ -157,11 +157,13 @@ int grid::FTStochasticForcing(int FieldDim)
                          PhaseFctOdd [0][mi] * PhaseFctOdd [1][mj]) * PhaseFctOdd [2][mk] +
                         (PhaseFctEven[0][mi] * PhaseFctOdd [1][mj] + 
                          PhaseFctOdd [0][mi] * PhaseFctEven[1][mj]) * PhaseFctEven[2][mk]) * ModeOdd[m]; 
+//                if (ModeOdd != 0) printf("Grid_FTSF:ModeOdd=%g\n",ModeOdd[m]);
                 }
 
                 BaryonField[StochAccelNum][i + 
                                  j*GridDimension[0] + 
                                  k*GridDimension[0]*GridDimension[1]] = FT_NORM * sum;
+//                if (sum != 0) printf("Grid_FTFS:StochAccel(if)[%d][%d][%d] = %g\n",i,j,k, sum);
                 }
 
             break;
@@ -306,6 +308,7 @@ int grid::FTStochasticForcing(int FieldDim)
                 BaryonField[StochAccelNum][i + 
                                  j*GridDimension[0] + 
                                  k*GridDimension[0]*GridDimension[1]] = FT_NORM * sum;
+//                if (FT_NORM*sum != 0) printf("StochAccel(else)[%d][%d][%d] = %g\n",i,j,k, FT_NORM*sum);
                 // iterate x-phase factors
                 for (m = 0; m < size; m++) {
                     buf[m] = PhaseFctEven[0][m];

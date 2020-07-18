@@ -38,6 +38,10 @@ void StochasticForcing::Evolve(float dt)
 	    for (int dim = 0; dim < SpectralRank; dim++) {
 		DriftCoeff[dim] = exp(-dt/AutoCorrlTime[dim]);
 		DiffCoeff[dim]  = sqrt(1 - DriftCoeff[dim]*DriftCoeff[dim]);
+//        printf("SF_Evolve:dt=%g\n",dt);
+//        printf("SF_Evolve:AutoCorTime=%g\n",AutoCorrlTime[dim]);
+//        if (DriftCoeff[dim] != 0) printf("SF_Evolve:DriftCoeff=%g\n",DriftCoeff[dim]);
+//        if (DiffCoeff[dim] != 0) printf("SF_Evolve:DiffCoeff=%g\n",DiffCoeff[dim]);
 		for (int n = 0, m = 0; n < NumModes; n++)
 		    if (mask[n]) {
 			SpectrumEven[dim][m] = DriftCoeff[dim] * SpectrumEven[dim][m] +
@@ -45,6 +49,7 @@ void StochasticForcing::Evolve(float dt)
 			SpectrumOdd [dim][m] = DriftCoeff[dim] * SpectrumOdd [dim][m] + 
 			                       DiffCoeff [dim] * InjectionOdd [dim][n];
 			++m;
+//            if (SpectrumOdd [dim][m] != 0) printf("SF_Evolve:SpectrumOdd =%g\n",SpectrumOdd [dim][m]);
 		    }
 	    }
 

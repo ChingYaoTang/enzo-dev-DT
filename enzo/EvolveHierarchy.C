@@ -384,8 +384,15 @@ int EvolveHierarchy(HierarchyEntry &TopGrid, TopGridData &MetaData,
         dtProc = min(dtProc, dtProcTemp);
         Temp = Temp->NextGridThisLevel;
       }
-
+//      printf("Temp: %d\n",Temp);
+//      if( dtProc< 1e-10 ) 
+//          printf("EvolveHierarchy: if(CheckpointRestart == FALSE), While(), dtProc =%g\n",dtProc);
+      
       dt = RootGridCourantSafetyNumber*CommunicationMinValue(dtProc);
+      
+//      if ( dt<1e-10 )
+//          printf("EvolveHierarchy: if(CheckpointRestart == FALSE), CommunicationMinValue, dt=%g\n",dt/RootGridCourantSafetyNumber);
+      
       dt = min(MetaData.MaximumTopGridTimeStep, dt);
 
       if (debug) fprintf(stderr, "dt, Initialdt: %g %g \n", dt, Initialdt);
@@ -414,16 +421,17 @@ int EvolveHierarchy(HierarchyEntry &TopGrid, TopGridData &MetaData,
 
       /* Set the time step.  If it will cause Time += dt > StopTime, then
          set dt = StopTime - Time */
-
       dt = min(MetaData.StopTime - MetaData.Time, dt);
     } else { 
       dt = dtThisLevel[0]; 
     }
+//    if(dt<1e-10) printf("EvolveHierarchy: if(CheckpointRestart == FALSE), , dt=%g\n",dt);
 
     /* Set the time step.  If it will cause Time += dt > StopTime, then
        set dt = StopTime - Time */
  
     dt = min(MetaData.StopTime - MetaData.Time, dt);
+//    if(dt<1e-10) printf("EvolveHierarchy: min(MetaData.StopTime - MetaData.Time, dt) dt=%g\n",dt);
     Temp = LevelArray[0];
     // Stop skipping
 
